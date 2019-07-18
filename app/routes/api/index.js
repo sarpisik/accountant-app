@@ -1,13 +1,7 @@
 try {
-  const server = require('../../lib/server');
-  server.get('/api/me', (req, res) => {
-    res.json({
-      user: {
-        firstname: 'Neo',
-        lastname: 'Anderson'
-      }
-    });
-  });
+  const server = require('../../lib/server'),
+    meHandler = require('./meHandler');
+  server.use('/api/me', meHandler);
   server.get('/api/version', (req, res) => {
     res.json({
       version: 1.0
