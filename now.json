@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "name": "nextjs-express-nowv2",
+  "builds": [
+    {
+      "src": "app/routes/**/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "www/package.json",
+      "use": "@now/next"
+    }
+  ],
+  "public": true,
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/app/routes/api"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/www/$1"
+    }
+  ]
+}

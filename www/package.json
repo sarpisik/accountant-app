@@ -1,0 +1,17 @@
+{
+  "name": "accountant-app",
+  "version": "1.0.0",
+  "author": "sarpisik",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "next": "9.0.2",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
+  }
+}
