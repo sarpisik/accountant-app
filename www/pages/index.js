@@ -1,8 +1,9 @@
-import url from 'url';
 import React from 'react';
-import Link from 'next/link';
-import Router from 'next/router';
+import url from 'url';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { startClock, serverRenderClock } from '../store';
+import Examples from '../components/examples';
 import Layout from '../components/Layout.js';
 
 const absoluteUrl = (req, setLocalhost) => {
@@ -19,11 +20,15 @@ const absoluteUrl = (req, setLocalhost) => {
   });
 };
 
-export default class extends React.Component {
-  static async getInitialProps(context) {
+class Index extends React.Component {
+  static async getInitialProps({ reduxStore, req }) {
+    const isServer = !!req;
+    // DISPATCH ACTIONS HERE ONLY WITH `reduxStore.dispatch`
+    reduxStore.dispatch(serverRenderClock(isServer));
+
     /* NOTE - relative url in this function runs will not work and
         will get ECONNRESET error since it runs on server context */
-    const baseUrl = absoluteUrl(context.req, 'localhost:3000');
+    const baseUrl = absoluteUrl(req, 'localhost:3000');
     const apiUrl =
       process.env.NODE_ENV === 'production'
         ? `${baseUrl}api/me`
@@ -36,18 +41,27 @@ export default class extends React.Component {
       return { user: null };
     }
   }
+
+  componentDidMount() {
+    // DISPATCH ACTIONS HERE FROM `mapDispatchToProps`
+    // TO TICK THE CLOCK
+    this.timer = setInterval(() => this.props.startClock(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   render() {
     return (
       <Layout>
-        <h1>NextJS + Express in Now v2</h1>
-        {this.props.user && (
-          <div>
-            <h2>Data from API</h2>
-            <p>FirstName : {this.props.user.firstname}</p>
-            <p>LastName : {this.props.user.lastname}</p>
-          </div>
-        )}
+        <Examples user={this.props.user} />
       </Layout>
     );
   }
 }
+const mapDispatchToProps = { startClock };
+export default connect(
+  null,
+  mapDispatchToProps
+)(Index);
