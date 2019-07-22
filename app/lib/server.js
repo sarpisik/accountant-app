@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express'),
   server = express(),
+  logger = require('morgan'),
   mongoose = require('mongoose'),
   helmet = require('helmet'),
   compression = require('compression');
@@ -17,6 +18,7 @@ mongooseConnection.on(
 );
 
 server.use(helmet()); // protect against well known vulnerabilitiesSection.
+server.use(logger('dev'));
 server.use(express.json());
 server.use(compression()); //Compress all routes
 server.use(express.urlencoded({ extended: false }));
