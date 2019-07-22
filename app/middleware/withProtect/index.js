@@ -1,4 +1,4 @@
-const { Account } = require('../../models'),
+const { User } = require('../../models'),
   jwt = require('jsonwebtoken');
 
 module.exports = wrappedFunction => (req, res) => {
@@ -8,7 +8,7 @@ module.exports = wrappedFunction => (req, res) => {
 
     jwt.verify(token, key, function(err, payload) {
       payload
-        ? Account.findById(payload.userId).then(doc => {
+        ? User.findById(payload.userId).then(doc => {
             req.user = doc;
             wrappedFunction(req, res);
           })

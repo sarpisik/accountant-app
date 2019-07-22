@@ -1,6 +1,6 @@
 const { body, sanitizeBody } = require('express-validator'),
   { checkPasswordsMatch } = require('../../../util'),
-  accountValidator = require('./accountValidator');
+  userValidator = require('./userValidator');
 module.exports = [
   // Validate fields.
   body('email')
@@ -16,5 +16,5 @@ module.exports = [
   // Sanitize fields.
   sanitizeBody('email').escape(),
   sanitizeBody('password').escape(),
-  accountValidator
+  userValidator
 ];

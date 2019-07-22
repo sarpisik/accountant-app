@@ -1,8 +1,8 @@
 const { withValidatorError } = require('../../../middleware'),
-  { Account } = require('../../../models'),
+  { User } = require('../../../models'),
   jwt = require('jsonwebtoken');
-const accountValidator = (req, res) =>
-  Account.findByEmail(req.body.email)
+const userValidator = (req, res) =>
+  User.findByEmail(req.body.email)
     .then(user =>
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (isMatch) {
@@ -26,4 +26,4 @@ const accountValidator = (req, res) =>
     )
     .catch(err => res.status(404).send(err));
 
-module.exports = withValidatorError(accountValidator);
+module.exports = withValidatorError(userValidator);

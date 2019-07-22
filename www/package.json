@@ -1,5 +1,5 @@
 {
-  "name": "accountant-app",
+  "name": "userant-app",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
