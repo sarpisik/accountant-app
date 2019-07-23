@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 module.exports = wrappedFunction => (req, res) => {
   // Extract the validation errors from a request.
   const errors = validationResult(req);

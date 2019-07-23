@@ -4,7 +4,12 @@ const server = require('../../lib/server'),
   signUpHandler = require('./signUpHandler'),
   logOutHandler = require('./logOutHandler'),
   validateHandler = require('./validateHandler'),
-  { createAccount } = require('./accountHandlers'),
+  {
+    createAccount,
+    readAccounts,
+    updateAccount,
+    deleteAccount
+  } = require('./accountHandlers'),
   { createInvoice } = require('./invoiceHandlers'),
   meHandler = require('./meHandler');
 try {
@@ -13,7 +18,6 @@ try {
   server.use('/api/signUp', signUpHandler);
   server.use('/api/logOut', logOutHandler);
   server.use('/api/validate/:id', validateHandler);
-  console.log(userHandler);
 
   server.use('/api/user', userHandler);
   server.get('/api/version', (req, res) => {
@@ -24,6 +28,9 @@ try {
 
   // Account
   server.post('/api/account/new', createAccount);
+  server.post('/api/account/list', readAccounts);
+  server.put('/api/account/edit', updateAccount);
+  server.delete('/api/account/delete', deleteAccount);
 
   // Invoice
   server.post('/api/invoice/new', createInvoice);
