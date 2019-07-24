@@ -4,6 +4,9 @@ const mongoose = require('mongoose'),
   validateRelatedAccount = require('../../middleware/invoice/validateRelatedAccount')(
     mongoose
   ),
+  handlePreRemoveInvoice = require('../../middleware/preRemoveInvoice')(
+    mongoose
+  ),
   updateModelProperty = require('../../middleware/updateModelProperty')({
     connection: mongoose,
     model: 'Invoice',
@@ -28,5 +31,8 @@ InvoiceSchema.pre('save', validateRelatedAccount);
 
 // Auto update lastEdit timestamp.
 InvoiceSchema.post('updateOne', updateModelProperty);
+
+// Remove from the registered account.
+InvoiceSchema.pre('remove', handlePreRemoveInvoice);
 
 module.exports = mongoose.model('Invoice', InvoiceSchema);

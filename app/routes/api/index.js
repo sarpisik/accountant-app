@@ -10,7 +10,12 @@ const server = require('../../lib/server'),
     updateAccount,
     deleteAccount
   } = require('./accountHandlers'),
-  { createInvoice } = require('./invoiceHandlers'),
+  {
+    createInvoice,
+    readInvoices,
+    updateInvoice,
+    deleteInvoice
+  } = require('./invoiceHandlers'),
   meHandler = require('./meHandler');
 try {
   server.use('/api/me', meHandler);
@@ -34,6 +39,10 @@ try {
 
   // Invoice
   server.post('/api/invoice/new', createInvoice);
+  server.post('/api/invoice/list', readInvoices);
+  server.put('/api/invoice/edit', updateInvoice);
+  server.delete('/api/invoice/delete', deleteInvoice);
+
   module.exports = server;
 } catch (ex) {
   console.error('API Error', ex);

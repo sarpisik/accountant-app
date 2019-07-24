@@ -22,6 +22,7 @@ const mongoose = require('mongoose'),
 
 // Auto update lastEdit timestamp.
 AccountSchema.post('updateOne', updateModelProperty);
+
 // Remove registered invoices.
 AccountSchema.pre('remove', handlePreRemoveAccount);
 
