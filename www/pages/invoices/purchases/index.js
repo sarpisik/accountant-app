@@ -1,3 +1,10 @@
+import { Table } from '../../../components';
+import { Fragment } from 'react';
+
 export default () => {
-  return <div>Purchases</div>;
+  return (
+    <Fragment>
+      <Table />
+    </Fragment>
+  );
 };
