@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Form from '../../../../components/AccountantForm';
+import { RegisterForm } from '../../../../components/AccountantForm';
 
 export default class NewInvoice extends PureComponent {
   constructor(props) {
@@ -16,6 +16,6 @@ export default class NewInvoice extends PureComponent {
   }
 
   render() {
-    return <Form {...this.data} />;
+    return <RegisterForm {...this.data} />;
   }
 }
