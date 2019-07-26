@@ -9,13 +9,13 @@ module.exports = [
     .withMessage('Invoice type must be specified.')
     .isLength({ max: 100 })
     .withMessage('Invoice type must be max 100 characters long.'),
-  body('sort')
+  body('keys')
     .exists()
-    .withMessage('Invoice sort must be specified.'),
+    .withMessage('Invoice keys must be specified.'),
   // Sanitize field.
   sanitizeBody('type')
     .escape()
     .trim(),
-  sanitizeBody('sort'),
+  sanitizeBody('keys'),
   readInvoices
 ];

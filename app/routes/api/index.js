@@ -5,6 +5,7 @@ const server = require('../../lib/server'),
   logOutHandler = require('./logOutHandler'),
   validateHandler = require('./validateHandler'),
   {
+    readAccount,
     createAccount,
     readAccounts,
     updateAccount,
@@ -32,8 +33,9 @@ try {
   });
 
   // Account
-  server.post('/api/account/new', createAccount);
+  server.post('/api/account', readAccount);
   server.post('/api/account/list', readAccounts);
+  server.post('/api/account/new', createAccount);
   server.put('/api/account/edit', updateAccount);
   server.delete('/api/account/delete', deleteAccount);
 

@@ -9,6 +9,14 @@ const Layout = ({ children }) => (
     style={{ minHeight: '100vh' }}>
     <Head />
     {children}
+    <style jsx global>{`
+      .feedback {
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 100;
+      }
+    `}</style>
   </MDBContainer>
 );
 export default Layout;

@@ -1,9 +1,8 @@
 import React from 'react';
 import url from 'url';
 import { MDBRow } from 'mdbreact';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { startClock, serverRenderClock } from '../store';
+import { startClock, serverRenderClock } from '../state/store';
 import Examples from '../components/examples';
 import { LinkBox, LinkRow } from '../components';
 

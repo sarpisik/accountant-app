@@ -1,6 +1,28 @@
 const { body, sanitizeBody } = require('express-validator'),
+  readAccount = require('../../../../middleware/account/readAccount'),
   readAccounts = require('../../../../middleware/account/readAccounts');
-module.exports = [
+
+module.exports.readAccount = [
+  // Validate field.
+  body('no')
+    .exists()
+    .withMessage('Account no must be specified.')
+    .isString()
+    .withMessage('Account no must be string value.')
+    .isLength({ max: 100 })
+    .withMessage('Account no must be max 100 characters long.'),
+  body('keys')
+    .exists()
+    .withMessage('Account keys must be specified.'),
+  // Sanitize field.
+  sanitizeBody('no')
+    .escape()
+    .trim(),
+  sanitizeBody('keys'),
+  readAccount
+];
+
+module.exports.readAccounts = [
   // Validate field.
   body('type')
     .isString()
@@ -9,13 +31,13 @@ module.exports = [
     .withMessage('Account type must be specified.')
     .isLength({ max: 100 })
     .withMessage('Account type must be max 100 characters long.'),
-  body('sort')
+  body('keys')
     .exists()
-    .withMessage('Account sort must be specified.'),
+    .withMessage('Account keys must be specified.'),
   // Sanitize field.
   sanitizeBody('type')
     .escape()
     .trim(),
-  sanitizeBody('sort'),
+  sanitizeBody('keys'),
   readAccounts
 ];
