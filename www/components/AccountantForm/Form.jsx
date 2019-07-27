@@ -1,40 +1,55 @@
 import { MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 import Input from './Input';
-import ButtonLoader from '../ButtonLoader';
+import { Button } from '../Buttons';
+import Spinner from '../Spinner';
 
 export default ({ title, inputs, values, onChange, onSubmit, ...props }) => (
   <MDBRow>
     <MDBCol md="9" lg="7" xl="5" className="mx-auto mt-3">
       <MDBCard>
-        <MDBCardBody className="mx-4">
+        <MDBCardBody className="mx-4 text-center">
           <div className="text-center">
-            <h3 className="dark-grey-text mb-5">
+            <h3 className="deep-purple-text mb-5">
               <strong>{title}</strong>
             </h3>
           </div>
-          <form onSubmit={onSubmit}>
-            {/* Inputs */}
-            {inputs.map(({ ...input }) => (
-              <Input
-                key={input.label}
-                onChange={onChange}
-                value={values[input.label]}
-                {...input}
-              />
-            ))}
-            {/* Submit */}
-            <div className="text-center pt-3 mb-3">
-              <ButtonLoader
-                type="submit"
-                gradient="blue"
-                rounded
-                className="btn-block z-depth-1a"
-                text="Submit"
-                color="white"
-                {...props}
-              />
-            </div>
-          </form>
+          {props.isLoading ? (
+            <Spinner color="deep-purple" />
+          ) : (
+            <form onSubmit={onSubmit}>
+              {/* Inputs */}
+              {inputs.map(({ ...input }) => (
+                <Input
+                  key={input.label}
+                  onChange={onChange}
+                  value={values[input.label]}
+                  {...input}
+                />
+              ))}
+              {/* Submit */}
+              <div className="text-center pt-3 mb-3">
+                <Button
+                  type="submit"
+                  gradient="blue"
+                  rounded
+                  className="btn-block z-depth-1a"
+                  text="Submit"
+                  color="white"
+                />
+                {props.delete && (
+                  <Button
+                    type="button"
+                    gradient="peach"
+                    rounded
+                    className="btn-block z-depth-1a"
+                    text={props.delete.text}
+                    color="white"
+                    onClick={props.delete.onDelete}
+                  />
+                )}
+              </div>
+            </form>
+          )}
         </MDBCardBody>
       </MDBCard>
     </MDBCol>

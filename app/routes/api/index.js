@@ -13,6 +13,7 @@ const server = require('../../lib/server'),
   } = require('./accountHandlers'),
   {
     createInvoice,
+    readInvoice,
     readInvoices,
     updateInvoice,
     deleteInvoice
@@ -40,6 +41,7 @@ try {
   server.delete('/api/account/delete', deleteAccount);
 
   // Invoice
+  server.post('/api/invoice', readInvoice);
   server.post('/api/invoice/new', createInvoice);
   server.post('/api/invoice/list', readInvoices);
   server.put('/api/invoice/edit', updateInvoice);

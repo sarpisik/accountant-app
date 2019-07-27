@@ -2,8 +2,8 @@ const { Invoice } = require('../../models'),
   // Wrapper middleware
   { errorHandler, withValidatorError } = require('..'),
   // Wrapped middleware
-  updateInvoice = ({ body: { _id, update } }, res) =>
-    Invoice.updateOne({ _id }, { ...update }, (updateErr, doc) =>
+  updateInvoice = ({ body: { _id, ...rest } }, res) =>
+    Invoice.updateOne({ _id }, { ...rest }, (updateErr, doc) =>
       updateErr
         ? errorHandler(updateErr, res)
         : doc.nModified < 1

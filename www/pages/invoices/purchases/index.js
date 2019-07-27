@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import apiHandler from '../../../util/apiHandler';
-import { Table } from '../../../components';
+import { LinkIcon, Table } from '../../../components';
 import { GET_INVOICES } from '../../../constants/apiUrls';
 
 export default class Purchases extends PureComponent {
@@ -19,7 +19,7 @@ export default class Purchases extends PureComponent {
           url: GET_INVOICES,
           data: {
             type: 'purchase',
-            keys: 'date no account title taxRate amount'
+            keys: 'date no account title taxRate amount _id'
           }
         },
         req
@@ -64,6 +64,11 @@ export default class Purchases extends PureComponent {
           label: 'Amount',
           field: 'amount',
           sort: 'asc'
+        },
+        {
+          label: 'Read',
+          field: '_id',
+          sort: 'asc'
         }
       ]
     };
@@ -72,12 +77,23 @@ export default class Purchases extends PureComponent {
   sortInvoices = () =>
     this.props.invoices.map(invoice =>
       this.data.columns.reduce((prev, { field }) => {
-        prev[field] = invoice[field];
+        prev[field] =
+          field === '_id' ? (
+            <LinkIcon
+              href="read/[_id]"
+              as={`read/${invoice[field]}`}
+              icon="search"
+            />
+          ) : (
+            invoice[field]
+          );
         return prev;
       }, {})
     );
 
   render() {
+    // Todo: Display empty table.
+    // Todo: Handle other errors.
     return this.props.invoices ? (
       <Table
         link="invoices/purchases/new"

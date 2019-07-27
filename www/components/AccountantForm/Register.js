@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Form from './Form';
+import DeleteFeedback from './DeleteFeedback';
 import Feedback from '../Feedback';
 import { removeWhiteSpace, addWhiteSpace } from '../../util/whiteSpaceHandlers';
 
@@ -15,8 +16,9 @@ export default class Container extends Component {
 
     this.state = {
       inputs: props.inputs,
-      values: props.inputs.reduce(labelReducer, {}),
+      values: props.values || props.inputs.reduce(labelReducer, {}),
       isLoading: false,
+      isRemove: false,
       alert: false
     };
   }
@@ -39,21 +41,29 @@ export default class Container extends Component {
       return prev;
     }, {});
 
+  resetForm = () =>
+    this.setState(state => ({
+      values: Object.keys(state.values).reduce((obj, key) => {
+        obj[key] = '';
+        return obj;
+      }, {})
+    }));
+
+  removeForm = () => this.setState({ isRemove: true });
+
   onSubmit = async event => {
     try {
       event.preventDefault();
       const { handleRequest, request } = this.props,
         data = { ...request.data, ...this.removeSpacesInLabel() };
-
       await this.toggleLoading();
-
       await handleRequest({
         ...request,
         data
       });
-
       this.toggleAlert();
       setTimeout(() => this.toggleAlert(), 2000);
+      await this.resetForm();
     } catch (error) {
       error.type === 'validation'
         ? this.setState(state => ({
@@ -73,6 +83,24 @@ export default class Container extends Component {
     }
   };
 
+  onDelete = async () => {
+    try {
+      const {
+        handleRequest,
+        button: { request }
+      } = this.props;
+      await this.toggleLoading();
+      await handleRequest(request);
+      await this.resetForm();
+      await this.removeForm();
+    } catch (error) {
+      alert('Failed on delete.');
+      console.error(error);
+    } finally {
+      await this.toggleLoading();
+    }
+  };
+
   render() {
     return (
       <Fragment>
@@ -81,12 +109,21 @@ export default class Container extends Component {
           color="success"
           text={this.props.feedback}
         />
-        <Form
-          title="Register A New Invoice"
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-          {...this.state}
-        />
+        {this.state.isRemove ? (
+          <DeleteFeedback />
+        ) : (
+          <Form
+            title="Register A New Invoice"
+            delete={
+              this.props.button
+                ? { ...this.props.button, onDelete: this.onDelete }
+                : null
+            }
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
+            {...this.state}
+          />
+        )}
       </Fragment>
     );
   }
