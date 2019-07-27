@@ -4,13 +4,6 @@ const { body, sanitizeBody } = require('express-validator'),
 
 module.exports.readInvoice = [
   // Validate field.
-  body('type')
-    .isString()
-    .withMessage('Invoice type must be a string value.')
-    .exists()
-    .withMessage('Invoice type must be specified.')
-    .isLength({ max: 100 })
-    .withMessage('Invoice type must be max 100 characters long.'),
   body('searchBy')
     .exists()
     .withMessage('Invoice keys must be specified.'),
@@ -28,13 +21,6 @@ module.exports.readInvoice = [
 
 module.exports.readInvoices = [
   // Validate field.
-  body('type')
-    .isString()
-    .withMessage('Invoice type must be a string value.')
-    .exists()
-    .withMessage('Invoice type must be specified.')
-    .isLength({ max: 100 })
-    .withMessage('Invoice type must be max 100 characters long.'),
   body('keys')
     .exists()
     .withMessage('Invoice keys must be specified.'),

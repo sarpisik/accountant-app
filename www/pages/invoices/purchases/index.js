@@ -1,106 +1,38 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { array, object } from 'prop-types';
 import apiHandler from '../../../util/apiHandler';
-import { LinkIcon, Table } from '../../../components';
+import { Invoices } from '../../../components';
 import { GET_INVOICES } from '../../../constants/apiUrls';
 
-export default class Purchases extends PureComponent {
-  static propTypes = {
-    invoices: PropTypes.array,
-    error: PropTypes.object
-  };
-  static async getInitialProps({ req }) {
-    try {
-      const {
-        data: { invoices }
-      } = await apiHandler(
-        {
-          method: 'post',
-          url: GET_INVOICES,
-          data: {
-            type: 'purchase',
-            keys: 'date no account title taxRate amount _id'
-          }
-        },
-        req
-      );
-      return { invoices };
-    } catch (error) {
-      console.error(error);
-
-      return { error };
-    }
-  }
-  constructor(props) {
-    super(props);
-    this.data = {
-      columns: [
-        {
-          label: 'Date',
-          field: 'date',
-          sort: 'asc'
-        },
-        {
-          label: 'No',
-          field: 'no',
-          sort: 'asc'
-        },
-        {
-          label: 'Account',
-          field: 'account',
-          sort: 'asc'
-        },
-        {
-          label: 'Title',
-          field: 'title',
-          sort: 'asc'
-        },
-        {
-          label: 'Tax Rate',
-          field: 'taxRate',
-          sort: 'asc'
-        },
-        {
-          label: 'Amount',
-          field: 'amount',
-          sort: 'asc'
-        },
-        {
-          label: 'Read',
-          field: '_id',
-          sort: 'asc'
+const Purchases = props => (
+  <Invoices link="invoices/purchases/new" {...props} />
+);
+Purchases.getInitialProps = async ({ req }) => {
+  try {
+    const {
+      data: { invoices }
+    } = await apiHandler(
+      {
+        method: 'post',
+        url: GET_INVOICES,
+        data: {
+          type: 'purchase',
+          keys: 'date no account title taxRate amount _id'
         }
-      ]
-    };
-  }
-
-  sortInvoices = () =>
-    this.props.invoices.map(invoice =>
-      this.data.columns.reduce((prev, { field }) => {
-        prev[field] =
-          field === '_id' ? (
-            <LinkIcon
-              href="read/[_id]"
-              as={`read/${invoice[field]}`}
-              icon="search"
-            />
-          ) : (
-            invoice[field]
-          );
-        return prev;
-      }, {})
+      },
+      req
     );
-
-  render() {
-    // Todo: Display empty table.
-    // Todo: Handle other errors.
-    return this.props.invoices ? (
-      <Table
-        link="invoices/purchases/new"
-        data={{ ...this.data, rows: this.sortInvoices() }}
-      />
-    ) : (
-      this.props.error.message
-    );
+    return { invoices };
+  } catch (error) {
+    console.error('POST invoices list error: ', error);
+    if (error.response.data.type === 'database')
+      return { error: error.response.data };
+    return { error };
   }
-}
+};
+Purchases.propTypes = {
+  invoices: array,
+  error: object
+};
+
+export default Purchases;

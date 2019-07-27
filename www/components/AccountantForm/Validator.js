@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Form from './Form';
 import { removeWhiteSpace, addWhiteSpace } from '../../util/whiteSpaceHandlers';
+import withApiHandler from '../withApiHandler';
 
-export default class Container extends Component {
+class Container extends Component {
   static propTypes = {
     inputs: PropTypes.array,
     request: PropTypes.object
@@ -80,6 +81,8 @@ export default class Container extends Component {
     );
   }
 }
+
+export default withApiHandler(Container);
 
 // Helper
 function labelReducer(prev, { label }) {

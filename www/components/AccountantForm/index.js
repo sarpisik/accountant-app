@@ -1,6 +1,4 @@
-import Register from './Register';
-import Validator from './Validator';
-import withApiHandler from '../withApiHandler';
+import { NewInvoiceForm } from './NewInvoice';
+import EditInvoiceForm from './EditInvoice';
 
-export const RegisterForm = withApiHandler(Register);
-export const ValidatorForm = withApiHandler(Validator);
+export { NewInvoiceForm, EditInvoiceForm };

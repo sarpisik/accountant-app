@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Form from './Form';
-import DeleteFeedback from './DeleteFeedback';
-import Feedback from '../Feedback';
+import Feedback from './Feedback';
 import { removeWhiteSpace, addWhiteSpace } from '../../util/whiteSpaceHandlers';
+import withApiHandler from '../withApiHandler';
 
-export default class Container extends Component {
+class Container extends Component {
   static propTypes = {
     inputs: PropTypes.array,
     request: PropTypes.object
@@ -18,8 +18,8 @@ export default class Container extends Component {
       inputs: props.inputs,
       values: props.values || props.inputs.reduce(labelReducer, {}),
       isLoading: false,
-      isRemove: false,
-      alert: false
+      isRemoved: false,
+      isSuccess: false
     };
   }
 
@@ -30,8 +30,6 @@ export default class Container extends Component {
     }));
 
   toggleLoading = () => this.setState(toggleStateLoading);
-
-  toggleAlert = () => this.setState(toggleStateAlert);
 
   removeSpacesInLabel = () =>
     Object.keys(this.state.values).reduce((prev, cur) => {
@@ -49,7 +47,7 @@ export default class Container extends Component {
       }, {})
     }));
 
-  removeForm = () => this.setState({ isRemove: true });
+  handleFeedback = type => this.setState({ [type]: true });
 
   onSubmit = async event => {
     try {
@@ -61,9 +59,8 @@ export default class Container extends Component {
         ...request,
         data
       });
-      this.toggleAlert();
-      setTimeout(() => this.toggleAlert(), 2000);
       await this.resetForm();
+      await this.handleFeedback('isSuccess');
     } catch (error) {
       error.type === 'validation'
         ? this.setState(state => ({
@@ -76,8 +73,12 @@ export default class Container extends Component {
               return input;
             })
           }))
-        : alert(error);
-      console.error('error ,', error);
+        : alert(
+            error.type === 'database' && error.error.name === 'MongoError'
+              ? 'This invoice no is already in use.'
+              : 'Can not perform submit.'
+          );
+      console.error(error);
     } finally {
       await this.toggleLoading();
     }
@@ -92,7 +93,7 @@ export default class Container extends Component {
       await this.toggleLoading();
       await handleRequest(request);
       await this.resetForm();
-      await this.removeForm();
+      await this.handleFeedback('isRemoved');
     } catch (error) {
       alert('Failed on delete.');
       console.error(error);
@@ -102,32 +103,27 @@ export default class Container extends Component {
   };
 
   render() {
+    if (this.state.isSuccess)
+      return <Feedback text="The invoice registered successfully." />;
+    if (this.state.isRemoved)
+      return <Feedback text="The invoice deleted successfully." />;
     return (
-      <Fragment>
-        <Feedback
-          isActive={this.state.alert}
-          color="success"
-          text={this.props.feedback}
-        />
-        {this.state.isRemove ? (
-          <DeleteFeedback />
-        ) : (
-          <Form
-            title="Register A New Invoice"
-            delete={
-              this.props.button
-                ? { ...this.props.button, onDelete: this.onDelete }
-                : null
-            }
-            onChange={this.onChange}
-            onSubmit={this.onSubmit}
-            {...this.state}
-          />
-        )}
-      </Fragment>
+      <Form
+        title="Register A New Invoice"
+        delete={
+          this.props.button
+            ? { ...this.props.button, onDelete: this.onDelete }
+            : null
+        }
+        onChange={this.onChange}
+        onSubmit={this.onSubmit}
+        {...this.state}
+      />
     );
   }
 }
+
+export default withApiHandler(Container);
 
 // Helper
 function labelReducer(prev, { label }) {
@@ -137,8 +133,4 @@ function labelReducer(prev, { label }) {
 
 function toggleStateLoading(state) {
   return { ...state, isLoading: !state.isLoading };
-}
-
-function toggleStateAlert(state) {
-  return { ...state, alert: !state.alert };
 }
