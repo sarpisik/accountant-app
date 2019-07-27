@@ -14,5 +14,8 @@ package-lock.json
 .nyc_output/
 coverage/*
 
+# IDE
+.vscode
+
 # Word
 *.odt
