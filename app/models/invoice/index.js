@@ -14,7 +14,7 @@ const mongoose = require('mongoose'),
   }),
   // Model
   InvoiceSchema = new Schema({
-    no: { type: String, required: true, unique: true },
+    no: { type: String, required: true },
     title: { type: String, required: true },
     account: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
     date: { type: Date, required: true },
