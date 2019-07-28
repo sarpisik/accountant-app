@@ -4,20 +4,14 @@ const { body, sanitizeBody } = require('express-validator'),
 
 module.exports.readAccount = [
   // Validate field.
-  body('no')
+  body('searchBy')
     .exists()
-    .withMessage('Account no must be specified.')
-    .isString()
-    .withMessage('Account no must be string value.')
-    .isLength({ max: 100 })
-    .withMessage('Account no must be max 100 characters long.'),
+    .withMessage('Account search param must be specified.'),
   body('keys')
     .exists()
     .withMessage('Account keys must be specified.'),
   // Sanitize field.
-  sanitizeBody('no')
-    .escape()
-    .trim(),
+  sanitizeBody('searchBy'),
   sanitizeBody('keys'),
   readAccount
 ];

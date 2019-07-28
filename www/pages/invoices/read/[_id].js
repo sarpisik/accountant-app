@@ -1,5 +1,5 @@
 import React from 'react';
-import { array, object } from 'prop-types';
+import { object } from 'prop-types';
 import apiHandler from '../../../util/apiHandler';
 import { GET_INVOICE } from '../../../constants/apiUrls';
 import { EditInvoiceForm } from '../../../components';
@@ -15,7 +15,7 @@ EditInvoice.getInitialProps = async ({ req, query: { _id } }) => {
         url: GET_INVOICE,
         data: {
           searchBy: { _id },
-          keys: 'date no account title taxRate amount _id'
+          keys: 'date no account title taxRate amount _id type'
         }
       },
       req
@@ -28,7 +28,7 @@ EditInvoice.getInitialProps = async ({ req, query: { _id } }) => {
   }
 };
 EditInvoice.propTypes = {
-  invoices: array,
+  invoice: object,
   error: object
 };
 

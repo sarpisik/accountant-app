@@ -1,5 +1,6 @@
 import { NewInvoiceForm } from './NewInvoice';
 import { NewAccountForm } from './NewAccount';
 import EditInvoiceForm from './EditInvoice';
+import EditAccountForm from './EditAccount';
 
-export { NewInvoiceForm, EditInvoiceForm, NewAccountForm };
+export { NewInvoiceForm, EditAccountForm, EditInvoiceForm, NewAccountForm };

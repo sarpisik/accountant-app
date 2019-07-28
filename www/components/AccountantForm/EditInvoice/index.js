@@ -33,7 +33,7 @@ export default class EditInvoiceForm extends PureComponent {
       request: {
         method: 'put',
         url: '/' + EDIT_INVOICE,
-        data: props.invoice ? { ...props.invoice, type: 'purchase' } : null
+        data: props.invoice || null
       },
       title: 'Update Invoice',
       feedback: {

@@ -6,14 +6,11 @@ module.exports.readInvoice = [
   // Validate field.
   body('searchBy')
     .exists()
-    .withMessage('Invoice keys must be specified.'),
+    .withMessage('Invoice search param must be specified.'),
   body('keys')
     .exists()
     .withMessage('Invoice keys must be specified.'),
   // Sanitize field.
-  sanitizeBody('type')
-    .escape()
-    .trim(),
   sanitizeBody('searchBy'),
   sanitizeBody('keys'),
   readInvoice

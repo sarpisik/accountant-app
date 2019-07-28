@@ -15,7 +15,7 @@ Sellers.getInitialProps = async ({ req }) => {
         url: GET_ACCOUNTS,
         data: {
           type: 'seller',
-          keys: 'no title createdAt balance'
+          keys: 'no title createdAt balance _id'
         }
       },
       req

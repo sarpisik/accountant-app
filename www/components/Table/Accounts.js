@@ -31,22 +31,27 @@ export default class Invoices extends PureComponent {
           label: 'Balance',
           field: 'balance',
           sort: 'asc'
+        },
+        {
+          label: 'Read',
+          field: '_id',
+          sort: 'asc'
         }
       ]
     };
   }
   sortRowByColumns = () =>
-    (this.props.accounts || []).map(invoice =>
+    (this.props.accounts || []).map(account =>
       this.data.columns.reduce((prev, { field }) => {
         prev[field] =
           field === '_id' ? (
             <LinkIcon
               href="read/[_id]"
-              as={`read/${invoice[field]}`}
+              as={`read/${account[field]}`}
               icon="search"
             />
           ) : (
-            invoice[field]
+            account[field]
           );
         return prev;
       }, {})

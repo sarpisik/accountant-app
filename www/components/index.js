@@ -6,7 +6,8 @@ import { Invoices, Accounts } from './Table';
 import {
   NewInvoiceForm,
   EditInvoiceForm,
-  NewAccountForm
+  NewAccountForm,
+  EditAccountForm
 } from './AccountantForm';
 
 export {
@@ -18,5 +19,6 @@ export {
   Accounts,
   NewInvoiceForm,
   EditInvoiceForm,
-  NewAccountForm
+  NewAccountForm,
+  EditAccountForm
 };

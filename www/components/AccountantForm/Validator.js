@@ -41,7 +41,7 @@ class Container extends Component {
       event.preventDefault();
       const { handleRequest, request, onSuccess } = this.props,
         { values } = this.state,
-        data = { ...request.data, ...values };
+        data = { ...request.data, searchBy: { ...values } };
 
       await this.toggleLoading();
 
