@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { oneOf, shape, string, array, object } from 'prop-types';
 import Form from './Form';
 import Feedback from './Feedback';
 import { removeWhiteSpace, addWhiteSpace } from '../../util/whiteSpaceHandlers';
@@ -7,10 +7,19 @@ import withApiHandler from '../withApiHandler';
 
 class Container extends Component {
   static propTypes = {
-    inputs: PropTypes.array,
-    request: PropTypes.object
+    title: oneOf([
+      'Register A New Invoice',
+      'Update Invoice',
+      'Register A New Account',
+      'Update Account'
+    ]),
+    feedback: shape({
+      onRegister: string,
+      onDelete: string
+    }),
+    inputs: array,
+    request: object
   };
-
   constructor(props) {
     super(props);
 
@@ -75,7 +84,7 @@ class Container extends Component {
           }))
         : alert(
             error.type === 'database' && error.error.name === 'MongoError'
-              ? 'This invoice no is already in use.'
+              ? 'This No is already in use.'
               : 'Can not perform submit.'
           );
       console.error(error);
@@ -104,12 +113,12 @@ class Container extends Component {
 
   render() {
     if (this.state.isSuccess)
-      return <Feedback text="The invoice registered successfully." />;
+      return <Feedback text={this.props.feedback.onRegister} />;
     if (this.state.isRemoved)
-      return <Feedback text="The invoice deleted successfully." />;
+      return <Feedback text={this.props.feedback.onDelete} />;
     return (
       <Form
-        title="Register A New Invoice"
+        title={this.props.title}
         delete={
           this.props.button
             ? { ...this.props.button, onDelete: this.onDelete }

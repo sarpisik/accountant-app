@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { oneOf } from 'prop-types';
 import NewInvoiceLayout from '../NewInvoiceLayout/index.jsx';
+import { CREATE_INVOICE } from '../../../../constants/apiUrls.js';
 
 export default class NewInvoiceContainer extends PureComponent {
   static propTypes = {
@@ -28,8 +29,13 @@ export default class NewInvoiceContainer extends PureComponent {
       ],
       request: {
         method: 'post',
-        url: '/api/invoice/new',
+        url: '/' + CREATE_INVOICE,
         data: { type: props.type }
+      },
+      title: 'Register A New Invoice',
+      feedback: {
+        onRegister: 'Invoice registered successfully.',
+        onDelete: 'Invoice deleted successfully.'
       }
     };
 

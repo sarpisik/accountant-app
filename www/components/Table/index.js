@@ -1,3 +1,4 @@
 import Invoices from './Invoices';
+import Accounts from './Accounts';
 
-export { Invoices };
+export { Accounts, Invoices };

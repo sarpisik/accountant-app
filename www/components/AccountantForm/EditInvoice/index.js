@@ -34,15 +34,17 @@ export default class EditInvoiceForm extends PureComponent {
         method: 'put',
         url: '/' + EDIT_INVOICE,
         data: props.invoice ? { ...props.invoice, type: 'purchase' } : null
+      },
+      title: 'Update Invoice',
+      feedback: {
+        onRegister: 'Invoice registered successfully.',
+        onDelete: 'Invoice deleted successfully.'
       }
     };
   }
   render() {
     return this.props.invoice ? (
-      <RegisterForm
-        feedback="Invoice updated successfully."
-        {...this.editFormData}
-      />
+      <RegisterForm {...this.editFormData} />
     ) : (
       this.props.error.message
     );

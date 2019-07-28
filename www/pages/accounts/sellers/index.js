@@ -1,80 +1,36 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import { array, object } from 'prop-types';
 import apiHandler from '../../../util/apiHandler';
-import { Table } from '../../../components';
+import { Accounts } from '../../../components';
 import { GET_ACCOUNTS } from '../../../constants/apiUrls';
 
-export default class Purchases extends PureComponent {
-  static propTypes = {
-    accounts: PropTypes.array,
-    error: PropTypes.object
-  };
-  static async getInitialProps({ req }) {
-    try {
-      const {
-        data: { accounts }
-      } = await apiHandler(
-        {
-          method: 'post',
-          url: GET_ACCOUNTS,
-          data: {
-            type: 'seller',
-            keys: 'no title createdAt balance'
-          }
-        },
-        req
-      );
-      return { accounts };
-    } catch (error) {
-      console.error(error);
-
-      return { error };
-    }
-  }
-  constructor(props) {
-    super(props);
-    this.data = {
-      columns: [
-        {
-          label: 'No',
-          field: 'no',
-          sort: 'asc'
-        },
-        {
-          label: 'Title',
-          field: 'title',
-          sort: 'asc'
-        },
-        {
-          label: 'Created At',
-          field: 'createdAt',
-          sort: 'asc'
-        },
-        {
-          label: 'Balance',
-          field: 'balance',
-          sort: 'asc'
+const Sellers = props => <Accounts link="accounts/sellers/new" {...props} />;
+Sellers.getInitialProps = async ({ req }) => {
+  try {
+    const {
+      data: { accounts }
+    } = await apiHandler(
+      {
+        method: 'post',
+        url: GET_ACCOUNTS,
+        data: {
+          type: 'seller',
+          keys: 'no title createdAt balance'
         }
-      ]
-    };
-  }
-
-  sortInvoices = () =>
-    this.props.accounts.map(account =>
-      this.data.columns.reduce((prev, { field }) => {
-        prev[field] = account[field];
-        return prev;
-      }, {})
+      },
+      req
     );
-
-  render() {
-    return this.props.accounts ? (
-      <Table
-        link="accounts/sellers/new"
-        data={{ ...this.data, rows: this.sortInvoices() }}
-      />
-    ) : (
-      this.props.error.message
-    );
+    return { accounts };
+  } catch (error) {
+    console.error('POST accounts list error: ', error);
+    if (error.response.data.type === 'database')
+      return { error: error.response.data };
+    return { error };
   }
-}
+};
+Sellers.propTypes = {
+  accounts: array,
+  error: object
+};
+
+export default Sellers;

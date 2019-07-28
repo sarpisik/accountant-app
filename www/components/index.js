@@ -2,8 +2,12 @@ import LinkIcon from './LinkIcon';
 import LinkBox from './LinkBox';
 import LinkRow from './LinkRow';
 import Layout from './Layout';
-import { Invoices } from './Table';
-import { NewInvoiceForm, EditInvoiceForm } from './AccountantForm';
+import { Invoices, Accounts } from './Table';
+import {
+  NewInvoiceForm,
+  EditInvoiceForm,
+  NewAccountForm
+} from './AccountantForm';
 
 export {
   LinkIcon,
@@ -11,6 +15,8 @@ export {
   LinkBox,
   Layout,
   Invoices,
+  Accounts,
   NewInvoiceForm,
-  EditInvoiceForm
+  EditInvoiceForm,
+  NewAccountForm
 };

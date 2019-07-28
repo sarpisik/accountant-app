@@ -47,10 +47,7 @@ const NewInvoiceLayout = ({
         />
       </MDBTabPane>
       <MDBTabPane tabId="2" role="tabpanel">
-        <RegisterForm
-          feedback="Invoice registered successfully."
-          {...registerFormData}
-        />
+        <RegisterForm {...registerFormData} />
       </MDBTabPane>
     </MDBTabContent>
   </Fragment>
