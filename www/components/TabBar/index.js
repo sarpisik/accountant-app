@@ -9,7 +9,7 @@ const isActive = href =>
   useRouter().route === href ? 'text-danger' : 'text-body';
 
 const Tab = ({ href, icon }) => (
-  <MDBNavItem>
+  <MDBNavItem key={href}>
     <Link href={href}>
       <a className={`nav-link ${isActive(href)}`}>
         <MDBIcon icon={icon} />
