@@ -1,11 +1,7 @@
 const { Invoice } = require('../../models'),
-  { errorHandler, withValidatorError } = require('..'),
-  readInvoices = ({ body: { type, keys } }, res) =>
-    Invoice.find({ type }, keys, (error, invoices) => {
-      if (error) return errorHandler(error, res);
-      if (invoices.length < 1)
-        return errorHandler({ message: 'Can not find invoices.' }, res);
-      res.send({ invoices });
-    });
+  // Wrapper middleware
+  { readModels } = require('..'),
+  // Wrapped middleware
+  readInvoices = readModels({ Model: Invoice, key: 'invoices' });
 
-module.exports = withValidatorError(readInvoices);
+module.exports = readInvoices;

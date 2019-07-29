@@ -2,6 +2,7 @@ const errorHandler = require('./errorHandler'),
   withProtect = require('./withProtect'),
   withValidatorError = require('./withValidatorError'),
   readModel = require('./readModel'),
+  readModels = require('./readModels'),
   updateModel = require('./updateModel');
 
 module.exports = {
@@ -9,5 +10,6 @@ module.exports = {
   withProtect,
   withValidatorError,
   readModel,
+  readModels,
   updateModel
 };
