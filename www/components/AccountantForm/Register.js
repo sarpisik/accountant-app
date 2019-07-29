@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { oneOf, shape, string, array, object } from 'prop-types';
 import Form from './Form';
 import Feedback from './Feedback';
@@ -11,14 +11,15 @@ class Container extends Component {
       'Register A New Invoice',
       'Update Invoice',
       'Register A New Account',
-      'Update Account'
+      'Update Account',
+      'Sign Up'
     ]),
     feedback: shape({
-      onRegister: string,
+      onRegister: string.isRequired,
       onDelete: string
     }),
-    inputs: array,
-    request: object
+    inputs: array.isRequired,
+    request: object.isRequired
   };
   constructor(props) {
     super(props);

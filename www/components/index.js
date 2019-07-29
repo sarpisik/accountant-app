@@ -10,6 +10,7 @@ import {
   NewAccountForm,
   EditAccountForm
 } from './AccountantForm';
+import { NewUserForm } from './UserForms';
 
 export {
   LinkIcon,
@@ -22,5 +23,6 @@ export {
   NewInvoiceForm,
   EditInvoiceForm,
   NewAccountForm,
-  EditAccountForm
+  EditAccountForm,
+  NewUserForm
 };

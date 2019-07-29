@@ -7,7 +7,7 @@ export default ({ title, inputs, values, onChange, onSubmit, ...props }) => (
   <MDBRow>
     <MDBCol md="9" lg="7" xl="5" className="mx-auto mt-3">
       <MDBCard>
-        <MDBCardBody className="mx-4 text-center">
+        <MDBCardBody className="mx-4">
           <div className="text-center">
             <h3 className="deep-purple-text mb-5">
               <strong>{title}</strong>
