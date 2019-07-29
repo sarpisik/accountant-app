@@ -3,7 +3,7 @@ import React from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
-import { Layout } from '../components';
+import { Layout, TabBar } from '../components';
 
 export default class MyApp extends App {
   render() {
@@ -11,6 +11,7 @@ export default class MyApp extends App {
     return (
       <Container>
         <Layout>
+          <TabBar />
           <Component {...pageProps} />
         </Layout>
       </Container>
