@@ -1,4 +1,5 @@
 const server = require('../../lib/server'),
+  imageHandler = require('./imageHandler'),
   userHandler = require('./userHandlers'),
   editUserHandler = require('./editUserHandler'),
   signInHandler = require('./signInHandler'),
@@ -21,6 +22,9 @@ const server = require('../../lib/server'),
     deleteInvoice
   } = require('./invoiceHandlers');
 try {
+  // Images for email template
+  server.get('/images/:name', imageHandler);
+
   // Session
   server.use('/api/signin', signInHandler);
   server.use('/api/signup', signUpHandler);
