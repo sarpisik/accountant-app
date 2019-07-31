@@ -18,8 +18,8 @@
       "dest": "/app/routes/api"
     },
     {
-      "src": "/pages/(.*)",
-      "dest": "/www/$1"
+      "src": "/(.*)",
+      "dest": "/www/pages$1"
     }
   ],
   "env": {
