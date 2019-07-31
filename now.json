@@ -19,7 +19,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/www/pages/"
+      "dest": "/www/$1"
     }
   ],
   "env": {
