@@ -1,6 +1,7 @@
 const { body, sanitizeBody } = require('express-validator'),
   readAccount = require('../../../../middleware/account/readAccount'),
-  readAccounts = require('../../../../middleware/account/readAccounts');
+  readAccounts = require('../../../../middleware/account/readAccounts'),
+  { withProtect } = require('../../../../middleware');
 
 module.exports.readAccount = [
   // Validate field.
@@ -13,7 +14,7 @@ module.exports.readAccount = [
   // Sanitize field.
   sanitizeBody('searchBy'),
   sanitizeBody('keys'),
-  readAccount
+  withProtect(readAccount)
 ];
 
 module.exports.readAccounts = [
@@ -33,5 +34,5 @@ module.exports.readAccounts = [
     .escape()
     .trim(),
   sanitizeBody('keys'),
-  readAccounts
+  withProtect(readAccounts)
 ];

@@ -23,6 +23,11 @@
     }
   ],
   "env": {
-    "MONGODB_URI": "@my-mongodb-uri"
+    "MONGODB_URI": "@my-mongodb-uri",
+    "TOKEN_KEY": "@token-key",
+    "EMAIL_HOST": "@email-host",
+    "EMAIL_AUTH_USER": "@email-auth-user",
+    "EMAIL_AUTH_PASSWORD": "@email-auth-password",
+    "EMAIL_SENDER": "@email-sender"
   }
 }

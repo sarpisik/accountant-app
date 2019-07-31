@@ -1,36 +1,24 @@
-import React from 'react';
-import { array, object } from 'prop-types';
-import apiHandler from '../../../util/apiHandler';
+import { array, object, string } from 'prop-types';
 import { Invoices } from '../../../components';
 import { GET_INVOICES } from '../../../constants/apiUrls';
+import { withAuthSync } from '../../../util/auth';
 
 const Purchases = props => <Invoices link="invoices/sales/new" {...props} />;
-Purchases.getInitialProps = async ({ req }) => {
-  try {
-    const {
-      data: { invoices }
-    } = await apiHandler(
-      {
-        method: 'post',
-        url: GET_INVOICES,
-        data: {
-          type: 'sale',
-          keys: 'date no account title taxRate amount _id'
-        }
-      },
-      req
-    );
-    return { invoices };
-  } catch (error) {
-    console.error('POST invoices list error: ', error);
-    if (error.response.data.type === 'database')
-      return { error: error.response.data };
-    return { error };
-  }
-};
+
+export default withAuthSync(Purchases)(
+  {
+    method: 'post',
+    url: GET_INVOICES,
+    data: {
+      type: 'sale',
+      keys: 'date no account title taxRate amount _id'
+    }
+  },
+  'invoices'
+);
+
 Purchases.propTypes = {
   invoices: array,
-  error: object
+  error: object,
+  token: string.isRequired
 };
-
-export default Purchases;

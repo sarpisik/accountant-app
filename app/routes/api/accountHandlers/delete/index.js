@@ -1,5 +1,6 @@
 const { body, sanitizeBody } = require('express-validator'),
-  deleteAccount = require('../../../../middleware/account/deleteAccount');
+  deleteAccount = require('../../../../middleware/account/deleteAccount'),
+  { withProtect } = require('../../../../middleware');
 module.exports = [
   // Validate field.
   body('_id')
@@ -11,5 +12,5 @@ module.exports = [
   sanitizeBody('_id')
     .escape()
     .trim(),
-  deleteAccount
+  withProtect(deleteAccount)
 ];

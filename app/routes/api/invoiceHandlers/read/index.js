@@ -1,6 +1,7 @@
 const { body, sanitizeBody } = require('express-validator'),
   readInvoice = require('../../../../middleware/invoice/readInvoice'),
-  readInvoices = require('../../../../middleware/invoice/readInvoices');
+  readInvoices = require('../../../../middleware/invoice/readInvoices'),
+  { withProtect } = require('../../../../middleware');
 
 module.exports.readInvoice = [
   // Validate field.
@@ -13,7 +14,7 @@ module.exports.readInvoice = [
   // Sanitize field.
   sanitizeBody('searchBy'),
   sanitizeBody('keys'),
-  readInvoice
+  withProtect(readInvoice)
 ];
 
 module.exports.readInvoices = [
@@ -26,5 +27,5 @@ module.exports.readInvoices = [
     .escape()
     .trim(),
   sanitizeBody('keys'),
-  readInvoices
+  withProtect(readInvoices)
 ];

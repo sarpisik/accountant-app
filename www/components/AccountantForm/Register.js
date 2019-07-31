@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { oneOf, shape, string, array, object } from 'prop-types';
+import { oneOf, shape, string, array, object, func } from 'prop-types';
 import Form from './Form';
 import Feedback from './Feedback';
 import { removeWhiteSpace, addWhiteSpace } from '../../util/whiteSpaceHandlers';
@@ -12,14 +12,17 @@ class Container extends Component {
       'Update Invoice',
       'Register A New Account',
       'Update Account',
-      'Sign Up'
+      'Sign Up',
+      'Sign In',
+      'Change Password'
     ]),
     feedback: shape({
       onRegister: string.isRequired,
       onDelete: string
     }),
     inputs: array.isRequired,
-    request: object.isRequired
+    request: object.isRequired,
+    onSignIn: func
   };
   constructor(props) {
     super(props);
@@ -62,15 +65,19 @@ class Container extends Component {
   onSubmit = async event => {
     try {
       event.preventDefault();
-      const { handleRequest, request } = this.props,
+      const { handleRequest, request, onSignIn, onChangePassword } = this.props,
         data = { ...request.data, ...this.removeSpacesInLabel() };
       await this.toggleLoading();
-      await handleRequest({
+      const body = await handleRequest({
         ...request,
         data
       });
       await this.resetForm();
       await this.handleFeedback('isSuccess');
+      // If this is signIn form, run onSignIn method.
+      onSignIn && onSignIn(body);
+      // If this is changePassword form, run onChangePassword method.
+      onChangePassword && onChangePassword();
     } catch (error) {
       error.type === 'validation'
         ? this.setState(state => ({

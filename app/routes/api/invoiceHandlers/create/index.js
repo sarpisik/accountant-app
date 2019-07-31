@@ -1,5 +1,6 @@
 const { body, sanitizeBody } = require('express-validator'),
-  createInvoice = require('../../../../middleware/invoice/createInvoice');
+  createInvoice = require('../../../../middleware/invoice/createInvoice'),
+  { withProtect } = require('../../../../middleware');
 module.exports = [
   // Validate fields.
   body('no')
@@ -68,5 +69,5 @@ module.exports = [
   sanitizeBody('taxRate')
     .escape()
     .trim(),
-  createInvoice
+  withProtect(createInvoice)
 ];

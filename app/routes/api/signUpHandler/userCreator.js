@@ -1,4 +1,3 @@
-// TODO: Create next js validate handler in return email link.
 const { withValidatorError } = require('../../../middleware'),
   { User } = require('../../../models'),
   { sendEmail, getUrl } = require('../../../util');
@@ -6,12 +5,11 @@ const { withValidatorError } = require('../../../middleware'),
 const userCreator = (req, res) => {
   const { email, userName, password } = req.body;
   // Create an user object with trimmed and escaped data.
-  const newUser = new User({
+  new User({
     email,
     userName,
     password
-  });
-  newUser.save((err, createdAcc) => {
+  }).save((err, createdAcc) => {
     if (err)
       // API error.
       return res.status(500).send({

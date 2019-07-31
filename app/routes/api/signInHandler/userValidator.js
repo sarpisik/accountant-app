@@ -1,10 +1,10 @@
 const { withValidatorError } = require('../../../middleware'),
   { User } = require('../../../models'),
   jwt = require('jsonwebtoken');
-const userValidator = (req, res) =>
-  User.findByEmail(req.body.email)
+const userValidator = ({ body: { email, password } }, res) =>
+  User.findByEmail(email)
     .then(user =>
-      user.comparePassword(req.body.password, (err, isMatch) => {
+      user.comparePassword(password, (err, isMatch) => {
         if (isMatch) {
           const key = process.env.TOKEN_KEY,
             userId = user._id,

@@ -8,17 +8,17 @@ export default class NewUserContainer extends PureComponent {
 
     this.registerFormData = {
       inputs: [
-        { icon: 'user', label: 'your name' },
-        { label: 'your email', icon: 'envelope', type: 'email' },
+        { icon: 'user', label: 'user Name' },
+        { label: 'email', icon: 'envelope', type: 'email' },
         {
-          label: 'your password',
+          label: 'password',
           icon: 'lock',
           type: 'password',
           min: 4,
           max: 6
         },
         {
-          label: 'confirm your password',
+          label: 'confirm Password',
           icon: 'exclamation-triangle',
           type: 'password',
           min: 4,

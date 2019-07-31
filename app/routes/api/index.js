@@ -1,9 +1,11 @@
 const server = require('../../lib/server'),
   userHandler = require('./userHandlers'),
+  editUserHandler = require('./editUserHandler'),
   signInHandler = require('./signInHandler'),
   signUpHandler = require('./signUpHandler'),
   logOutHandler = require('./logOutHandler'),
   validateHandler = require('./validateHandler'),
+  deleteUserHandler = require('./deleteUserHandler'),
   {
     readAccount,
     createAccount,
@@ -17,21 +19,16 @@ const server = require('../../lib/server'),
     readInvoices,
     updateInvoice,
     deleteInvoice
-  } = require('./invoiceHandlers'),
-  meHandler = require('./meHandler');
+  } = require('./invoiceHandlers');
 try {
-  server.use('/api/me', meHandler);
-  server.use('/api/signIn', signInHandler);
-  server.use('/api/signUp', signUpHandler);
-  server.use('/api/logOut', logOutHandler);
+  // Session
+  server.use('/api/signin', signInHandler);
+  server.use('/api/signup', signUpHandler);
+  server.use('/api/logout', logOutHandler);
   server.use('/api/validate/:id', validateHandler);
-
-  server.use('/api/user', userHandler);
-  server.get('/api/version', (req, res) => {
-    res.json({
-      version: 1.0
-    });
-  });
+  server.post('/api/user', userHandler);
+  server.put('/api/user/edit', editUserHandler);
+  server.delete('/api/user/delete', deleteUserHandler);
 
   // Account
   server.post('/api/account', readAccount);

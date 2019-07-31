@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import { object, string } from 'prop-types';
 import { addWhiteSpace } from '../../../util/whiteSpaceHandlers';
-import formatTime from '../../../util/formatTime';
+import { inputDateFormat } from '../../../util/formatTime';
 import { EDIT_ACCOUNT, DELETE_ACCOUNT } from '../../../constants/apiUrls';
 import RegisterForm from '../Register';
+import { authHeader } from '../../../util/auth';
 
 export default class EditAccountForm extends PureComponent {
   static propTypes = {
-    account: PropTypes.object,
-    error: PropTypes.object
+    account: object,
+    error: object,
+    token: string.isRequired
   };
   constructor(props) {
     super(props);
@@ -20,12 +22,14 @@ export default class EditAccountForm extends PureComponent {
         text: 'Delete',
         request: {
           method: 'delete',
+          headers: authHeader(props.token),
           url: '/' + DELETE_ACCOUNT,
           data: props.account ? { _id: props.account._id } : null
         }
       },
       request: {
         method: 'put',
+        headers: authHeader(props.token),
         url: '/' + EDIT_ACCOUNT,
         data: props.account || null
       },
@@ -50,7 +54,9 @@ function formatAccountDate(account) {
     return Object.keys(account).reduce((prev, cur) => {
       let whiteSpacedKey = addWhiteSpace(cur);
       prev[whiteSpacedKey] =
-        whiteSpacedKey === 'date' ? formatTime(account[cur]) : account[cur];
+        whiteSpacedKey === 'date'
+          ? inputDateFormat(account[cur])
+          : account[cur];
       return prev;
     }, {});
   }

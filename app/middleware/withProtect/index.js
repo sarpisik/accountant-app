@@ -7,8 +7,9 @@ module.exports = wrappedFunction => (req, res) => {
       key = process.env.TOKEN_KEY;
 
     jwt.verify(token, key, function(err, payload) {
+      err && console.error(err);
       payload
-        ? User.findById(payload.userId).then(doc => {
+        ? User.findById(payload.userId, '-password').then(doc => {
             req.user = doc;
             wrappedFunction(req, res);
           })
@@ -16,8 +17,8 @@ module.exports = wrappedFunction => (req, res) => {
             .status(403)
             .send({ type: 'reject', message: 'Token is not valid.' });
     });
-  } catch (e) {
-    console.error('Token validation error. ', e);
+  } catch (error) {
+    console.error('Token validation error. ', error);
     res
       .status(500)
       .send({ type: 'reject', message: 'Token validation error.' });

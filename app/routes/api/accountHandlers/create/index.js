@@ -1,5 +1,6 @@
 const { body, sanitizeBody } = require('express-validator'),
-  createAccount = require('../../../../middleware/account/createAccount');
+  createAccount = require('../../../../middleware/account/createAccount'),
+  { withProtect } = require('../../../../middleware');
 module.exports = [
   // Validate fields.
   body('no')
@@ -30,5 +31,5 @@ module.exports = [
   sanitizeBody('type')
     .escape()
     .trim(),
-  createAccount
+  withProtect(createAccount)
 ];

@@ -3,22 +3,6 @@ const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   // Middleware
   hashPassword = require('../../middleware/user/hashPassword'),
-  // preUpdateModel = require('../../middleware/preUpdateModel')({
-  //   connection: mongoose,
-  //   model: 'User',
-  //   property: 'lastLogin'
-  // // }),
-  // handlePreRemoveUser = require('../../middleware/handlePreRemoveUser')(
-  //   mongoose
-  // ),
-  // setHashPasswordAndSalt = require('../../middleware/setHashPasswordAndSalt'),
-  // Helpers
-  // {
-  //   saltHashPassword,
-  //   checkPassword,
-  //   createdAtFormatted,
-  //   lastLoginFormatted
-  // } = require('../../utility'),
   // Model
   UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
@@ -43,14 +27,7 @@ UserSchema.index(
 UserSchema.pre('save', hashPassword);
 
 // Auto update lastLogin timestamp
-// UserSchema.pre('updateOne', preUpdateModel);
-
-// Remove all categories, friends before user delete.
-// UserSchema.pre('remove', handlePreRemoveUser);
-
-// UserSchema.virtual('createdAtFormatted').get(createdAtFormatted);
-
-// UserSchema.virtual('lastLoginFormatted').get(lastLoginFormatted);
+UserSchema.pre('updateOne', hashPassword);
 
 // Handle password validation on Log In.
 UserSchema.methods.comparePassword = function(candidatePassword, next) {
@@ -59,31 +36,6 @@ UserSchema.methods.comparePassword = function(candidatePassword, next) {
     next(null, isMatch);
   });
 };
-
-// Add invited / requested friend user by id
-// UserSchema.statics.addField = function(_id, field, value, callBack) {
-//   this.updateOne({ _id }, { $push: { [field]: value } }).exec(callBack);
-// };
-
-// Remove invited / requested friend user by id
-// UserSchema.statics.removeField = function(_id, field, value, callBack) {
-//   this.updateOne({ _id }, { $pull: { [field]: value } }).exec(callBack);
-// };
-
-// Check if user exist.
-// UserSchema.statics.isExistByEmail = function(email) {
-//   const User = this;
-//   return new Promise((resolve, reject) => {
-//     User.countDocuments({ email }).exec((err, count) => {
-//       // API error.
-//       if (err) return reject(err);
-//       // No result.
-//       if (!count) return reject('User does not exist.');
-//       // User exist.
-//       resolve(count);
-//     });
-//   });
-// };
 
 // Handle find by Email.
 UserSchema.statics.findByEmail = function(email) {

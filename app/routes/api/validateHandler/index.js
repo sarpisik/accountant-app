@@ -23,7 +23,6 @@ module.exports = (req, res) => {
       token = jwt.sign({ userId }, key);
     res.status(200).send({
       type: 'success',
-      userId,
       userName,
       token
     });

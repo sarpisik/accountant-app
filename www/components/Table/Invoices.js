@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
-import { array, object } from 'prop-types';
+import { array, object, string } from 'prop-types';
 import Table from './Table';
 import LinkIcon from '../LinkIcon';
 
 export default class Invoices extends PureComponent {
   static propTypes = {
     invoices: array,
-    error: object
+    error: object,
+    token: string.isRequired
   };
   constructor(props) {
     super(props);

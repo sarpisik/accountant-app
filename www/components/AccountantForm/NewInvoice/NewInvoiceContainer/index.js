@@ -2,48 +2,48 @@ import React, { PureComponent } from 'react';
 import { oneOf } from 'prop-types';
 import NewInvoiceLayout from '../NewInvoiceLayout/index.jsx';
 import { CREATE_INVOICE } from '../../../../constants/apiUrls.js';
+import { authHeader } from '../../../../util/auth.js';
 
 export default class NewInvoiceContainer extends PureComponent {
   static propTypes = {
     type: oneOf(['purchase', 'sale'])
   };
-  constructor(props) {
-    super(props);
 
-    this.validatorFormData = {
-      inputs: [{ label: 'no' }],
-      request: {
-        method: 'post',
-        url: '/api/account',
-        data: { keys: '_id' }
-      }
-    };
+  state = {
+    activeItem: '1',
+    account: null
+  };
 
-    this.registerFormData = {
-      inputs: [
-        { label: 'date', type: 'date' },
-        { label: 'no' },
-        { label: 'title' },
-        { label: 'tax Rate', type: 'number', max: 99 },
-        { label: 'amount', type: 'number', max: 999999 }
-      ],
-      request: {
-        method: 'post',
-        url: '/' + CREATE_INVOICE,
-        data: { type: props.type }
-      },
-      title: 'Register A New Invoice',
-      feedback: {
-        onRegister: 'Invoice registered successfully.',
-        onDelete: 'Invoice deleted successfully.'
-      }
-    };
+  validatorFormData = {
+    inputs: [{ label: 'no' }],
+    request: {
+      method: 'post',
+      headers: authHeader(this.props.token),
+      url: '/api/account',
+      data: { keys: '_id' }
+    }
+  };
 
-    this.state = {
-      activeItem: '1',
-      account: null
-    };
-  }
+  registerFormData = {
+    inputs: [
+      { label: 'date', type: 'date' },
+      { label: 'no' },
+      { label: 'title' },
+      { label: 'tax Rate', type: 'number', max: 99 },
+      { label: 'amount', type: 'number', max: 999999 }
+    ],
+    request: {
+      method: 'post',
+      headers: authHeader(this.props.token),
+      url: '/' + CREATE_INVOICE,
+      data: { type: this.props.type }
+    },
+    title: 'Register A New Invoice',
+    feedback: {
+      onRegister: 'Invoice registered successfully.',
+      onDelete: 'Invoice deleted successfully.'
+    }
+  };
 
   handleAccountRequest = async ({ account: { _id } }) => {
     await this.setState({ account: _id, activeItem: '2' });

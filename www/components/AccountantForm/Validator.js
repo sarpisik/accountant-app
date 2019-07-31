@@ -63,7 +63,9 @@ class Container extends Component {
               return input;
             })
           }))
-        : alert(error);
+        : error.type === 'database'
+        ? alert(error.error.message)
+        : alert('There was error on request. Please try again later.');
       console.error('error ,', error);
     } finally {
       await this.toggleLoading();

@@ -3,7 +3,8 @@ const errorHandler = require('./errorHandler'),
   withValidatorError = require('./withValidatorError'),
   readModel = require('./readModel'),
   readModels = require('./readModels'),
-  updateModel = require('./updateModel');
+  updateModel = require('./updateModel'),
+  updateUser = require('./user/updateUser');
 
 module.exports = {
   errorHandler,
@@ -11,5 +12,6 @@ module.exports = {
   withValidatorError,
   readModel,
   readModels,
-  updateModel
+  updateModel,
+  updateUser
 };

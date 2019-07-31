@@ -3,6 +3,7 @@ import LinkBox from './LinkBox';
 import LinkRow from './LinkRow';
 import Layout from './Layout';
 import TabBar from './TabBar';
+import UserValidationFeedback from './UserValidationFeedback';
 import { Invoices, Accounts } from './Table';
 import {
   NewInvoiceForm,
@@ -10,7 +11,8 @@ import {
   NewAccountForm,
   EditAccountForm
 } from './AccountantForm';
-import { NewUserForm } from './UserForms';
+import { NewUserForm, SignInForm, ChangePasswordForm } from './UserForms';
+import { Profile } from './Profile';
 
 export {
   LinkIcon,
@@ -18,11 +20,15 @@ export {
   LinkBox,
   Layout,
   TabBar,
+  UserValidationFeedback,
   Invoices,
   Accounts,
   NewInvoiceForm,
   EditInvoiceForm,
   NewAccountForm,
   EditAccountForm,
-  NewUserForm
+  NewUserForm,
+  SignInForm,
+  ChangePasswordForm,
+  Profile
 };

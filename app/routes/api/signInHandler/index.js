@@ -1,5 +1,4 @@
 const { body, sanitizeBody } = require('express-validator'),
-  { checkPasswordsMatch } = require('../../../util'),
   userValidator = require('./userValidator');
 module.exports = [
   // Validate fields.
@@ -11,8 +10,7 @@ module.exports = [
     .withMessage('Email must be specified'),
   body('password')
     .isLength({ min: 5, max: 100 })
-    .withMessage('Password must be at least 5 chars long')
-    .custom(checkPasswordsMatch),
+    .withMessage('Password must be at least 5 chars long'),
   // Sanitize fields.
   sanitizeBody('email').escape(),
   sanitizeBody('password').escape(),

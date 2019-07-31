@@ -20,6 +20,8 @@ export default (options, req) => {
   options.url =
     process.env.NODE_ENV === 'production'
       ? baseUrl + options.url
+      : options.url.indexOf('localhost') > -1
+      ? options.url
       : `http://localhost:9999/${options.url}`;
   return axios(options);
 };

@@ -1,35 +1,22 @@
-import React from 'react';
-import { object } from 'prop-types';
-import apiHandler from '../../../util/apiHandler';
+import { object, string } from 'prop-types';
 import { GET_INVOICE } from '../../../constants/apiUrls';
 import { EditInvoiceForm } from '../../../components';
+import { withAuthSync } from '../../../util/auth';
 
-const EditInvoice = props => <EditInvoiceForm {...props} />;
-EditInvoice.getInitialProps = async ({ req, query: { _id } }) => {
-  try {
-    const {
-      data: { invoice }
-    } = await apiHandler(
-      {
-        method: 'post',
-        url: GET_INVOICE,
-        data: {
-          searchBy: { _id },
-          keys: 'date no account title taxRate amount _id type'
-        }
-      },
-      req
-    );
-    return { invoice };
-  } catch (error) {
-    console.error(error);
+export default withAuthSync(EditInvoiceForm)(
+  {
+    method: 'post',
+    url: GET_INVOICE,
+    data: {
+      keys: 'date no account title taxRate amount _id type'
+    }
+  },
+  'invoice',
+  '_id'
+);
 
-    return { error };
-  }
-};
-EditInvoice.propTypes = {
+EditInvoiceForm.propTypes = {
   invoice: object,
-  error: object
+  error: object,
+  token: string.isRequired
 };
-
-export default EditInvoice;

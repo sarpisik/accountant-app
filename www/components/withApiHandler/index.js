@@ -1,8 +1,13 @@
 import React, { PureComponent } from 'react';
 import axios from 'axios';
+import getComponentDisplayName from '../../util/getComponentDisplayName';
 
-const withApiHandler = Component =>
-  class WithApiHandler extends PureComponent {
+const withApiHandler = WrappedComponent =>
+  class extends PureComponent {
+    static displayName = `withApiHandler(${getComponentDisplayName(
+      WrappedComponent
+    )})`;
+
     handleRequest = request => {
       request.url =
         process.env.NODE_ENV === 'production'
@@ -33,7 +38,9 @@ const withApiHandler = Component =>
     };
 
     render() {
-      return <Component handleRequest={this.handleRequest} {...this.props} />;
+      return (
+        <WrappedComponent handleRequest={this.handleRequest} {...this.props} />
+      );
     }
   };
 

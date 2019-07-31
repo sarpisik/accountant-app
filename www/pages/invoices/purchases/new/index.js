@@ -1,6 +1,14 @@
-import React from 'react';
+import { object, string } from 'prop-types';
 import { NewInvoiceForm } from '../../../../components';
+import { withAuthSync } from '../../../../util/auth';
 
-const NewPurchaseInvoice = () => <NewInvoiceForm type="purchase" />;
+const NewPurchaseInvoice = props => (
+  <NewInvoiceForm type="purchase" {...props} />
+);
 
-export default NewPurchaseInvoice;
+export default withAuthSync(NewPurchaseInvoice)(null);
+
+NewPurchaseInvoice.propTypes = {
+  error: object,
+  token: string.isRequired
+};

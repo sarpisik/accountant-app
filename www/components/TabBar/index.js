@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MDBRow, MDBNavbar, MDBNavItem, MDBIcon } from 'mdbreact';
 
-const Tabs = [{ href: '/', icon: 'home' }, { href: '/user', icon: 'user-alt' }];
+const Tabs = [
+  { href: '/', icon: 'home' },
+  { href: '/profile', icon: 'user-alt' }
+];
 
 const isActive = href =>
   useRouter().route === href ? 'text-danger' : 'text-body';
