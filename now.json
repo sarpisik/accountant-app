@@ -18,7 +18,7 @@
       "dest": "/app/routes/api"
     },
     {
-      "src": "/(.*)",
+      "src": "/pages/(.*)",
       "dest": "/www/$1"
     }
   ],
